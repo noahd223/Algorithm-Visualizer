@@ -13,6 +13,33 @@
             justify-content: center;
         }
 
+        h1 {
+            position: absolute;
+            justify-content: center;
+            top: 0;
+            /* Place it at the top of the screen */
+            width: 100%;
+            /* Make it span the full width of the screen */
+            text-align: center;
+            margin: 0;
+            /* Remove default margin */
+        }
+
+        h2 {
+            position: absolute;
+            justify-content: center;
+            top: 200px;
+            /* Place it at the top of the screen */
+            text-align: center;
+        }
+
+        .algoButton {
+            margin-top: 200px;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 10px;
+        }
+
         .block {
             width: 50px;
             height: 0px;
@@ -20,12 +47,20 @@
             margin: 1px;
             display: inline-block;
         }
+
+        .speedSlider {
+            margin-top: 10px;
+            align-self: center;
+        }
     </style>
 </head>
-<h1>Click an Algorithm to see it sort the blocks</h1>
+
 
 <body>
-
+    <h1>Click an Algorithm to see it sort the blocks</h1>
+    <h2>
+        <input type="range" min="1" max="1000" value="250" class="speedSlider" id="speedRange"></input>
+    </h2>
     <script src="algorithms.js"></script>
 
 </body>
