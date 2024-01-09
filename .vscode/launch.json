@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///C:/Users/noahd/OneDrive/Desktop/Algorithm Visualizer/index.html", // change to path of index file
+            "url": "file:///C:/Users/noahd/OneDrive/Desktop/Algorithm-Visualizer/index.html", // change to path of index file
             "webRoot": "${workspaceFolder}"
         }
     ]
