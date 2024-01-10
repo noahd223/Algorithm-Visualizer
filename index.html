@@ -17,27 +17,30 @@
             position: absolute;
             justify-content: center;
             top: 0;
-            /* Place it at the top of the screen */
             width: 100%;
-            /* Make it span the full width of the screen */
             text-align: center;
             margin: 0;
-            /* Remove default margin */
         }
 
         h2 {
             position: absolute;
             justify-content: center;
             top: 200px;
-            /* Place it at the top of the screen */
             text-align: center;
         }
 
-        .algoButton {
-            margin-top: 200px;
-            justify-content: center;
-            align-items: flex-end;
-            margin: 10px;
+        h3 {
+            position: absolute;
+            top: 200px;
+            left: 100px;
+            margin: 0px;
+        }
+        
+        h4 {
+            position: absolute;
+            top: 200px;
+            right: 100px;
+            margin: 0px;
         }
 
         .block {
@@ -58,9 +61,11 @@
 
 <body>
     <h1>Click an Algorithm to see it sort the blocks</h1>
-    <h2>
-        <input type="range" min="1" max="1000" value="250" class="speedSlider" id="speedRange"></input>
-    </h2>
+    <h2></h2>
+    <h4></h4>
+    <h3>
+        <input type="range" min="1" max="500" value="250" class="speedSlider" id="speedRange"></input>
+    </h3>
     <script src="algorithms.js"></script>
 
 </body>
