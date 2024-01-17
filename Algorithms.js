@@ -15,7 +15,7 @@ function createBlocks(container, numOfBlocks) {
     }
 }
 
-// Function to sort the blocks using insertion sort
+// Function to sort the blocks using the insertion sort algorithm
 function insertionSort(container, speed) {
     let maxDelay = 0;
     for (let i = 1; i < blocks.length; i++) {
@@ -23,7 +23,6 @@ function insertionSort(container, speed) {
         let currentBlock = blocks[currentIndex];
         setTimeout(() => {
             let previous = currentIndex - 1;
-
             let highlightPreviousBlock = function () {
                 if (previous >= 0 && parseInt(blocks[previous].style.height) > parseInt(currentBlock.style.height)) {
                     blocks[previous + 1] = blocks[previous];
@@ -41,8 +40,7 @@ function insertionSort(container, speed) {
             };
             highlightPreviousBlock();
         }, i * speed);
-        maxDelay = Math.max(maxDelay, (i + 1) * speed); 3
-        console.log(maxDelay);
+        maxDelay = Math.max(maxDelay, (i + 1) * speed); 
     }
 
     // Add a final setTimeout with the maximum delay observed during sorting
@@ -53,6 +51,34 @@ function insertionSort(container, speed) {
             }, (index + 1) * speed);
         });
     }, maxDelay);
+}
+
+// Function to sort the blocks using the bubble sort algorithm
+function bubbleSort(container, speed) {
+    for (let i = 0; i < blocks.length - 1; i++) {
+        for (let j = 0; j < blocks.length - i - 1; j++) {
+            setTimeout(function () {
+                var currentBlock = blocks[j];
+                var nextBlock = blocks[j + 1];
+
+                currentBlock.style.backgroundColor = "green";
+
+                if (currentBlock.style.height > nextBlock.style.height) {
+                    // Swap blocks
+                    var temp = currentBlock.style.height;
+                    currentBlock.style.height = nextBlock.style.height;
+                    nextBlock.style.height = temp;
+                }
+
+                //currentBlock.style.backgroundColor = "#3498db"; // Reset background color after sorting
+                //nextBlock.style.backgroundColor = "#3498db"; // Reset background color after sorting
+
+                // Rearrange the sorted blocks in the container
+                //container.innerHTML = "";
+                blocks.forEach(block => container.appendChild(block));
+            }, (i * (blocks.length / 10 - 1) + j) * speed); // Adjust the delay as needed
+        }
+    }
 }
 
 // function to draw the blocks on the screen based on the number the user requests
@@ -92,6 +118,17 @@ function drawButtons() {
     insertionSortButton.addEventListener("click", () => {
         if (!sortingInProgress) {
             insertionSort(container, speed);
+            sortingInProgress = true;
+        }
+    });
+
+    // Draws the bubble sort button
+    const bubbleSortButton = document.createElement("button");
+    bubbleSortButton.textContent = "Bubble Sort";
+    document.querySelector('h2').appendChild(bubbleSortButton);
+    bubbleSortButton.addEventListener("click", () => {
+        if (!sortingInProgress) {
+            bubbleSort(container, speed);
             sortingInProgress = true;
         }
     });
