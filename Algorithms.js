@@ -40,7 +40,7 @@ function insertionSort(container, speed) {
             };
             highlightPreviousBlock();
         }, i * speed);
-        maxDelay = Math.max(maxDelay, (i + 1) * speed); 
+        maxDelay = Math.max(maxDelay, (i + 1) * speed);
     }
 
     // Add a final setTimeout with the maximum delay observed during sorting
@@ -60,25 +60,64 @@ function bubbleSort(container, speed) {
             setTimeout(function () {
                 var currentBlock = blocks[j];
                 var nextBlock = blocks[j + 1];
-
-                currentBlock.style.backgroundColor = "green";
-
-                if (currentBlock.style.height > nextBlock.style.height) {
+                if (parseInt(currentBlock.style.height) > parseInt(nextBlock.style.height)) {
                     // Swap blocks
-                    var temp = currentBlock.style.height;
+                    var tempHeight = currentBlock.style.height;
                     currentBlock.style.height = nextBlock.style.height;
-                    nextBlock.style.height = temp;
+                    nextBlock.style.height = tempHeight;
                 }
-
-                //currentBlock.style.backgroundColor = "#3498db"; // Reset background color after sorting
-                //nextBlock.style.backgroundColor = "#3498db"; // Reset background color after sorting
-
+                if (i > 0) { // highlight the sorted block at the end of the list in green
+                    blocks[blocks.length - i].style.backgroundColor = "green";
+                }
                 // Rearrange the sorted blocks in the container
-                //container.innerHTML = "";
                 blocks.forEach(block => container.appendChild(block));
-            }, (i * (blocks.length / 10 - 1) + j) * speed); // Adjust the delay as needed
+            }, ((i / 5) * (blocks.length - 1) + (j / 5)) / 2 * speed); // Adjust the delay as needed
         }
     }
+}
+
+// Function to sort the blocks using the merge sort algorithm
+function mergeSort(container, speed) {
+    // Helper function to merge two sorted arrays
+    function merge(left, right) {
+        let result = [];
+        let leftIndex = 0;
+        let rightIndex = 0;
+
+        while (leftIndex < left.length && rightIndex < right.length) {
+            if (parseInt(left[leftIndex].style.height) < parseInt(right[rightIndex].style.height)) {
+                result.push(left[leftIndex]);
+                leftIndex++;
+            } else {
+                result.push(right[rightIndex]);
+                rightIndex++;
+            }
+        }
+
+        return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+    }
+
+    // Recursive function to perform merge sort
+    function mergeSortRecursive(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+
+        const middle = Math.floor(arr.length / 2);
+        const left = arr.slice(0, middle);
+        const right = arr.slice(middle);
+
+        return merge(mergeSortRecursive(left), mergeSortRecursive(right));
+    }
+
+    const sortedBlocks = mergeSortRecursive(blocks);
+
+    // Animate the sorted blocks
+    sortedBlocks.forEach((block, index) => {
+        setTimeout(() => {
+            container.appendChild(block);
+        }, index * speed);
+    });
 }
 
 // function to draw the blocks on the screen based on the number the user requests
@@ -96,6 +135,7 @@ function drawBlocks() {
 
 // function to draw the buttons to activate certain algorithms
 function drawButtons() {
+
     const speedSlider = document.getElementById('speedRange');
     // Draws speed slider
     speedSlider.addEventListener("input", () => {
@@ -107,8 +147,12 @@ function drawButtons() {
     resetButton.textContent = "Reset";
     document.querySelector("h4").appendChild(resetButton);
     resetButton.addEventListener("click", () => {
-        sortingInProgress = false;
-        drawBlocks();
+        console.log(sortingInProgress);
+        if (!sortingInProgress) {
+            drawBlocks();
+        } else {
+            alert("Please wait until the blocks are finished sorting before reseting");
+        }
     });
 
     // Draws insertion sort button
@@ -117,8 +161,8 @@ function drawButtons() {
     document.querySelector('h2').appendChild(insertionSortButton);
     insertionSortButton.addEventListener("click", () => {
         if (!sortingInProgress) {
-            insertionSort(container, speed);
             sortingInProgress = true;
+            insertionSort(container, speed);
         }
     });
 
@@ -128,8 +172,19 @@ function drawButtons() {
     document.querySelector('h2').appendChild(bubbleSortButton);
     bubbleSortButton.addEventListener("click", () => {
         if (!sortingInProgress) {
-            bubbleSort(container, speed);
             sortingInProgress = true;
+            bubbleSort(container, speed);
+        }
+    });
+
+    // Draws the merge sort button
+    const mergeSortButton = document.createElement("button");
+    mergeSortButton.textContent = "Merge Sort";
+    document.querySelector('h2').appendChild(mergeSortButton);
+    mergeSortButton.addEventListener("click", () => {
+        if (!sortingInProgress) {
+            sortingInProgress = true;
+            mergeSort(container, speed);
         }
     });
 }
